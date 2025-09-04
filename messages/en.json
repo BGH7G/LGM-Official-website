@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "home": "Home",
+    "research": "Research",
+    "team": "Team",
+    "publications": "Publications",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "common": {
+    "learnMore": "Learn more",
+    "viewAll": "View all",
+    "loading": "Loading...",
+    "retry": "Retry"
+  }
+}
