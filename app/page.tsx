@@ -5,7 +5,7 @@ import { ArrowRight, Users, BookOpen, Calendar } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { headers } from "next/headers"
-import LanguageSwitcher from "@/components/language-switcher"
+ 
 
 function formatDate(createdAt?: string, publishedAt?: string): string {
   try {

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Calendar, User, Eye, Heart, Search, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import LanguageSwitcher from "@/components/language-switcher"
+ 
 
 // 动态数据通过 useEffect 获取
 
@@ -202,7 +202,7 @@ export default function NewsListPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-4">
                         <Badge variant="secondary">{news.category}</Badge>
-                        {news.tags.slice(0, 2).map((tag, index) => (
+                        {news.tags.slice(0, 2).map((tag: string, index: number) => (
                           <Badge key={index} variant="outline">
                             {tag}
                           </Badge>
