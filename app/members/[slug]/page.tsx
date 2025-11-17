@@ -183,11 +183,12 @@ const memberData = {
                     {name: "马世越", year: "2025级", research: "动物营养与饲料学(090502)"},
                     {name: "马浩凯", year: "2025级", research: "动物营养与饲料学(090502)"},
                     {name: "莫佳琪", year: "2025级", research: "动物营养与饲料学(090502)"},
-                    {name: "孙伟", year: "2025级", research: "动物营养与饲料学(090502)"}
+                    {name: "李佳豪", year: "2025级", research: "动物营养与饲料学(090502)"}
                 ],
                 master: [
                     {name: "付雨婷", year: "2024级", research: "动物营养与饲料学(090502)"},
                     {name: "曲金瑞", year: "2024级", research: "动物营养与饲料学(090502)"},
+                    {name: "郭志恒", year: "2023级", research: "畜牧(095133)"},
                     {name: "许东亮", year: "2024级", research: "畜牧(095133)"},
                     {name: "柏豪", year: "2025级", research: "畜牧(095133)"},
                     {name: "单雯涵", year: "2025级", research: "畜牧(095133)"},

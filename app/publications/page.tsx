@@ -12,9 +12,9 @@ import Link from "next/link"
 
 // 动态数据通过 /api/publication 获取
 
-const categories = ["全部", "深度学习", "计算机视觉", "自然语言处理", "强化学习", "边缘计算", "医疗AI"]
-const types = ["全部", "SCI", "CCF-A", "CCF-B", "其他"]
-const years = ["全部", "2024", "2023", "2022", "2021", "2020"]
+// const categories = ["全部", "深度学习", "计算机视觉", "自然语言处理", "强化学习", "边缘计算", "医疗AI"]
+const types = ["全部", "SCI", "核心期刊", "学位论文", "专利"]
+const years = ["全部","2025", "2024", "2023", "2022", "2021", "2020","2019","2018","2017"]
 
 export default function PublicationsPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -106,14 +106,14 @@ export default function PublicationsPage() {
   // 本地过滤与排序（静态筛选）
   const filteredPublications = useMemo(() => {
     const lower = searchTerm.trim().toLowerCase()
-    const categoryMap: Record<string, string[]> = {
-      "深度学习": ["Deep Learning"],
-      "计算机视觉": ["Computer Vision"],
-      "自然语言处理": ["Natural Language Processing", "NLP"],
-      "强化学习": ["Reinforcement Learning"],
-      "边缘计算": ["Edge Computing"],
-      "医疗AI": ["Medical AI", "Healthcare AI"],
-    }
+    // const categoryMap: Record<string, string[]> = {
+    //   "深度学习": ["Deep Learning"],
+    //   "计算机视觉": ["Computer Vision"],
+    //   "自然语言处理": ["Natural Language Processing", "NLP"],
+    //   "强化学习": ["Reinforcement Learning"],
+    //   "边缘计算": ["Edge Computing"],
+    //   "医疗AI": ["Medical AI", "Healthcare AI"],
+    // }
     return items
       .filter((pub) => {
         const matchesSearch =
@@ -121,11 +121,11 @@ export default function PublicationsPage() {
           pub.title.toLowerCase().includes(lower) ||
           pub.authors.some((a) => a.toLowerCase().includes(lower)) ||
           pub.keywords.some((k) => k.toLowerCase().includes(lower))
-        const matchesCategory =
-          selectedCategory === "全部" || (categoryMap[selectedCategory]?.includes(pub.category) ?? false)
+        // const matchesCategory =
+        //   selectedCategory === "全部" || (categoryMap[selectedCategory]?.includes(pub.category) ?? false)
         const matchesType = selectedType === "全部" || pub.type === selectedType
         const matchesYear = selectedYear === "全部" || pub.year.toString() === selectedYear
-        return matchesSearch && matchesCategory && matchesType && matchesYear
+        return matchesSearch && matchesType && matchesYear
       })
       .sort((a, b) => {
         switch (sortBy) {
@@ -226,7 +226,7 @@ export default function PublicationsPage() {
                 <span className="text-sm font-medium text-slate-700">筛选：</span>
               </div>
 
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              {/* <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger className="w-32">
                   <SelectValue placeholder="研究方向" />
                 </SelectTrigger>
@@ -237,7 +237,7 @@ export default function PublicationsPage() {
                     </SelectItem>
                   ))}
                 </SelectContent>
-              </Select>
+              </Select> */}
 
               <Select value={selectedType} onValueChange={setSelectedType}>
                 <SelectTrigger className="w-24">

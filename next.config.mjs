@@ -10,13 +10,11 @@ const nextConfig = {
     unoptimized: true,
   },
   async rewrites() {
-    if (process.env.NODE_ENV !== "development") {
-      return []
-    }
+    const origin = process.env.API_ORIGIN || 'http://localhost:3000'
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:3000/api/v1/:path*',
+        destination: `${origin}/api/v1/:path*`,
       },
     ]
   },

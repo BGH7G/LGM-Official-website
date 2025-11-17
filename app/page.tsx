@@ -267,7 +267,7 @@ export default async function HomePage() {
               {students.map((m: any) => (
                 <Card key={m.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-4 text-center">
-                    <div className="w-28 h-28 rounded-full overflow-hidden flex items-center justify-center mx-auto mb-3 bg-slate-200">
+                    <div className="w-[140px] h-[140px] rounded-lg overflow-hidden flex items-center justify-center mx-auto mb-3 bg-slate-200">
                       {m?.avatarUrl ? (
                         <img
                           src={m.avatarUrl}

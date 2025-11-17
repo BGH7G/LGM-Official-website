@@ -47,7 +47,7 @@ export default function NewsDetailActions({ id, initialLikes, shareUrl }: Props)
     if (liked || liking) return
     setLiking(true)
     try {
-      const res = await fetch(`/api/news/${id}/like`, { method: "POST" })
+      const res = await fetch(`/news/${id}/like`, { method: "POST" })
       if (!res.ok) throw new Error("请求失败")
       setLiked(true)
       try {

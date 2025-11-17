@@ -155,10 +155,11 @@ interface NewsPageProps {
 }
 
 export default async function NewsPage({ params }: NewsPageProps) {
-  const baseUrl = getBaseUrl()
+  const resolvedParams = await params
+  const baseUrl = await getBaseUrl()
   let data: any = null
   try {
-    const res = await fetch(`${baseUrl}/api/news/${params.id}`, { cache: "no-store" })
+    const res = await fetch(`${baseUrl}/api/news/${resolvedParams.id}`, { cache: "no-store" })
     const json = await res.json().catch(() => null)
     if (res.ok && json?.success && json?.data) {
       data = json.data
@@ -191,6 +192,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
     tags: Array.isArray(data?.TagOfNews) ? data.TagOfNews.map((t: any) => t?.name || "").filter(Boolean) : [],
     coverImage: typeof data?.coverImage === "string" ? toAbsoluteUrl(data.coverImage, baseUrl) : null,
   }
+  console.log(news.content)
 
   const relatedNewsItems = Array.isArray(data?.Related)
     ? data.Related
@@ -204,7 +206,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
         }))
     : []
 
-  const shareUrl = `${baseUrl}/news/${news.id}`
+  const shareUrl = `${baseUrl}/news/${resolvedParams.id}`
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
@@ -264,7 +266,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
         <header className="mb-8">
           <div className="flex items-center gap-2 mb-4">
             <Badge variant="secondary">{news.category}</Badge>
-            {news.tags.map((tag, index) => (
+            {news.tags.map((tag: string, index: number) => (
               <Badge key={index} variant="outline">
                 {tag}
               </Badge>
@@ -298,14 +300,9 @@ export default async function NewsPage({ params }: NewsPageProps) {
         <Separator className="mb-8" />
 
         {/* Article Content */}
-        <div className="prose prose-slate max-w-none">
+        <div className="prose max-w-none">
           <div
-            className="text-slate-700 leading-relaxed space-y-6"
             dangerouslySetInnerHTML={{ __html: news.content }}
-            style={{
-              fontSize: "16px",
-              lineHeight: "1.8",
-            }}
           />
         </div>
 
@@ -316,7 +313,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
           <section>
             <h2 className="text-2xl font-bold text-slate-900 mb-6">相关新闻</h2>
             <div className="grid md:grid-cols-2 gap-6">
-              {relatedNewsItems.map((relatedNews) => (
+              {relatedNewsItems.map((relatedNews: { id: number; title: string; summary: string; date: string }) => (
                 <Card key={relatedNews.id} className="hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-2 text-sm text-slate-500 mb-2">
@@ -362,8 +359,8 @@ export default async function NewsPage({ params }: NewsPageProps) {
   )
 }
 
-function getBaseUrl() {
-  const h = headers()
+async function getBaseUrl() {
+  const h = await headers()
   const protocol = h.get("x-forwarded-proto") || "http"
   const host = h.get("x-forwarded-host") || h.get("host") || "localhost:3000"
   return `${protocol}://${host}`
