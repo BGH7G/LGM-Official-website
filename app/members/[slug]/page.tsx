@@ -1,8 +1,8 @@
-import {Button} from "@/components/ui/button"
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card"
-import {Badge} from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 // import {Separator} from "@/components/ui/separator"
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
     ArrowLeft,
     Mail,
@@ -175,25 +175,25 @@ const memberData = {
         students: {
             current: {
                 phd: [
-                    {name: "张元锌", year: "2022级", research: "动物营养与饲料学(090502)"},
-                    {name: "贾小巍", year: "2022级", research: "动物营养与饲料学(090502)"},
-                    {name: "余诗强", year: "2023级", research: "动物营养与饲料学(090502)"},
-                    {name: "张凯", year: "2024级", research: "动物营养与饲料学(090502)"},
-                    {name: "田博雅", year: "2025级", research: "动物营养与饲料学(090502)"},
-                    {name: "马世越", year: "2025级", research: "动物营养与饲料学(090502)"},
-                    {name: "马浩凯", year: "2025级", research: "动物营养与饲料学(090502)"},
-                    {name: "莫佳琪", year: "2025级", research: "动物营养与饲料学(090502)"},
-                    {name: "李佳豪", year: "2025级", research: "动物营养与饲料学(090502)"}
+                    { name: "张元锌", year: "2022级", research: "动物营养与饲料学(090502)" },
+                    { name: "贾小巍", year: "2022级", research: "动物营养与饲料学(090502)" },
+                    { name: "余诗强", year: "2023级", research: "动物营养与饲料学(090502)" },
+                    { name: "张凯", year: "2024级", research: "动物营养与饲料学(090502)" },
+                    { name: "田博雅", year: "2025级", research: "动物营养与饲料学(090502)" },
+                    { name: "马世越", year: "2025级", research: "动物营养与饲料学(090502)" },
+                    { name: "马浩凯", year: "2025级", research: "动物营养与饲料学(090502)" },
+                    { name: "莫佳琪", year: "2025级", research: "动物营养与饲料学(090502)" },
+                    { name: "李佳豪", year: "2025级", research: "动物营养与饲料学(090502)" }
                 ],
                 master: [
-                    {name: "付雨婷", year: "2024级", research: "动物营养与饲料学(090502)"},
-                    {name: "曲金瑞", year: "2024级", research: "动物营养与饲料学(090502)"},
-                    {name: "郭志恒", year: "2023级", research: "畜牧(095133)"},
-                    {name: "许东亮", year: "2024级", research: "畜牧(095133)"},
-                    {name: "柏豪", year: "2025级", research: "畜牧(095133)"},
-                    {name: "单雯涵", year: "2025级", research: "畜牧(095133)"},
-                    {name: "李佳豪", year: "2025级", research: "动物营养与饲料学(090502)"},
-                    {name: "腾超", year: "2025级", research: "动物营养与饲料学(090502)"}
+                    { name: "付雨婷", year: "2024级", research: "动物营养与饲料学(090502)" },
+                    { name: "曲金瑞", year: "2024级", research: "动物营养与饲料学(090502)" },
+                    { name: "郭志恒", year: "2023级", research: "畜牧(095133)" },
+                    { name: "许东亮", year: "2024级", research: "畜牧(095133)" },
+                    { name: "柏豪", year: "2025级", research: "畜牧(095133)" },
+                    { name: "单雯涵", year: "2025级", research: "畜牧(095133)" },
+                    { name: "李佳豪", year: "2025级", research: "动物营养与饲料学(090502)" },
+                    { name: "腾超", year: "2025级", research: "动物营养与饲料学(090502)" }
                 ],
             },
         },
@@ -232,6 +232,173 @@ const memberData = {
             },
         ],
     },
+    "Sun-professor": {
+        id: "Sun-professor",
+        name: "孙大明",
+        nameEn: "Sun Daming",
+        title: "副教授，硕士生导师",
+        titleEn: "Associate Professor, Master Supervisor",
+        department: "动物科技学院",
+        photo: "/avatar/sun.png",
+
+        contact: {
+            email: "sundm128@163.com",
+            phone: "15295595598",
+            office: "卫岗校区理科楼B406",
+            address: "南京农业大学动物科技学院",
+        },
+
+        education: [
+            {
+                degree: "农学学士学位",
+                major: "动物科学",
+                school: "山东农业大学",
+                year: "2011.9-2015.6",
+            },
+            {
+                degree: "农学硕士学位",
+                major: "动物营养与饲料科学",
+                school: "南京农业大学",
+                year: "2015.9-2018.6",
+            },
+            {
+                degree: "农学博士学位",
+                major: "动物营养与饲料科学",
+                school: "南京农业大学",
+                year: "2018.9-2022.6",
+            }
+        ],
+
+        experience: [
+            {
+                position: "博士后",
+                institution: "中国药科大学",
+                period: "2022.6-2025.6",
+            },
+            {
+                position: "副教授",
+                institution: "南京农业大学动物科技学院",
+                period: "2025-now",
+            }
+
+        ],
+
+        research: {
+            interests: ["反刍动物微生态", "反刍动物消化道营养"],
+            description:
+                "主要从事反刍动物微生态与消化道营养研究。",
+        },
+
+        achievements: {
+            projects: [
+                {
+                    name: "国家自然科学基金青年项目",
+                    type: "国家自然科学基金",
+                    amount: "20+",
+                    period: "2025-2029",
+                    role: "参与",
+                },
+                {
+                    name: "江苏省卓越博士后计划项目",
+                    type: "省部级项目",
+                    amount: "20+",
+                    period: "2025-2029",
+                    role: "参与",
+                },
+            ],
+
+            awards: [
+                {
+                    name: "待补充",
+                    year: "2024",
+                    description: "",
+                },
+            ],
+        },
+
+        publications: [
+            {
+                title: "Early-life ruminal microbiome-derived indole-3-carboxaldehyde and prostaglandin D2 are effective promoters of rumen development",
+                authors: ["Sun, DM (Sun, Daming) ; Bian, GR (Bian, Gaorui) ; Zhang, K (Zhang, Kai) ; Liu, N (Liu, Ning) ; Yin, YY (Yin, Yuyang) ; Hou, YL (Hou, Yuanlong) ; Xie, F (Xie, Fei) ; Zhu, WY (Zhu, Weiyun) ; Mao, SY (Mao, Shengyong) ; Liu, JH (Liu, Junhua)"],
+                journal: "GENOME BIOLOGY",
+                year: 2024,
+                type: "SCI",
+                impact: "16.3",
+                citations: 8,
+                pdfUrl: "https://genomebiology.biomedcentral.com/articles/10.1186/s13059-024-03205-x",
+                doi: "10.1186/s13059-024-03205-x",
+            },
+            {
+                title: "Palmatine protects against atherosclerosis by gut microbiota and phenylalanine metabolism",
+                authors: ["Anlu Wang, Baoyi Guan, Linghua Yu, Qiyu Liu , Yuanlong Hou, Ziguang Li, Daming Sun, Hao Xu"],
+                journal: "Pharmacological Research",
+                year: 2024,
+                type: "SCI",
+                impact: "10.3",
+                citations: 7,
+                pdfUrl: "https://www.sciencedirect.com/science/article/pii/S104366182400358X",
+                doi: "10.1016/j.phrs.2024.107413",
+            },
+            {
+                title: "Single-cell transcriptomic landscape of the sheep rumen provides insights into physiological programming development and adaptation of digestive strategies",
+                authors: ["Yuan Y, Sun D M, Qin T, et al"],
+                journal: "Zoological Research",
+                year: 2022,
+                type: "SCI",
+                impact: "4.7",
+                citations: 21,
+                pdfUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9336438/",
+                doi: "10.24272/j.issn.2095-8137.2022.086",
+            },
+            {
+                title: "Transcriptomic analysis reveals the molecular mechanisms of rumen wall morphological and functional development induced by different solid diet introduction in a lamb model",
+                authors: ["Daming Sun, Yuyang Yin, Changzheng Guo, Lixiang Liu, Shengyong Mao, Weiyun Zhu & Junhua Liu"],
+                journal: "Journal of Animal Science and Biotechnology",
+                year: 2021,
+                type: "SCI",
+                impact: "6.5",
+                citations: 35,
+                pdfUrl: "https://jasbsci.biomedcentral.com/articles/10.1186/s40104-021-00556-4",
+                doi: "10.1186/s40104-021-00556-4",
+            },
+        ],
+
+        students: {
+            current: {
+                phd: [],
+                master: [],
+            },
+        },
+
+        services: [
+            {
+                type: "待补充",
+                name: "待补充",
+                period: "待补充",
+            },
+        ],
+
+        teaching: [
+            {
+                course: "动物消化道微生物学",
+                type: "研究生课程",
+                hours: "-",
+                semester: "秋季学期",
+            },
+            {
+                course: "消化道微生物研究思路与实验技术",
+                type: "研究生课程",
+                hours: "-",
+                semester: "秋季学期",
+            },
+            {
+                course: "畜牧微生物学实验",
+                type: "本科课程",
+                hours: "-",
+                semester: "秋季学期",
+            }
+        ],
+    },
 }
 
 interface MemberPageProps {
@@ -240,7 +407,7 @@ interface MemberPageProps {
     }
 }
 
-export default function MemberPage({params}: MemberPageProps) {
+export default function MemberPage({ params }: MemberPageProps) {
     const member = memberData[params.slug as keyof typeof memberData]
 
     if (!member) {
@@ -296,7 +463,7 @@ export default function MemberPage({params}: MemberPageProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
                 <Link href="/#team">
                     <Button variant="ghost" className="mb-6">
-                        <ArrowLeft className="h-4 w-4 mr-2"/>
+                        <ArrowLeft className="h-4 w-4 mr-2" />
                         返回团队成员
                     </Button>
                 </Link>
@@ -313,7 +480,7 @@ export default function MemberPage({params}: MemberPageProps) {
                                     <div
                                         className="w-48 h-48 bg-slate-200 rounded-lg flex items-center justify-center mx-auto lg:mx-0 overflow-hidden">
                                         <Image src={member.photo} alt={member.name} width={192} height={192}
-                                               className="object-cover w-full h-full"/>
+                                            className="object-cover w-full h-full" />
                                     </div>
                                 </div>
 
@@ -340,18 +507,18 @@ export default function MemberPage({params}: MemberPageProps) {
                                         {/* Contact Info */}
                                         <div className="grid md:grid-cols-2 gap-4 text-sm">
                                             <div className="flex items-center gap-2">
-                                                <Mail className="h-4 w-4 text-slate-500"/>
+                                                <Mail className="h-4 w-4 text-slate-500" />
                                                 <a href={`mailto:${member.contact.email}`}
-                                                   className="text-slate-700 hover:text-slate-900">
+                                                    className="text-slate-700 hover:text-slate-900">
                                                     {member.contact.email}
                                                 </a>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <Phone className="h-4 w-4 text-slate-500"/>
+                                                <Phone className="h-4 w-4 text-slate-500" />
                                                 <span className="text-slate-700">{member.contact.phone}</span>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <MapPin className="h-4 w-4 text-slate-500"/>
+                                                <MapPin className="h-4 w-4 text-slate-500" />
                                                 <span className="text-slate-700">{member.contact.office}</span>
                                             </div>
                                         </div>
@@ -377,7 +544,7 @@ export default function MemberPage({params}: MemberPageProps) {
                             <Card>
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
-                                        <BookOpen className="h-5 w-5"/>
+                                        <BookOpen className="h-5 w-5" />
                                         研究简介
                                     </CardTitle>
                                 </CardHeader>
@@ -390,7 +557,7 @@ export default function MemberPage({params}: MemberPageProps) {
                                 <Card>
                                     <CardHeader>
                                         <CardTitle className="flex items-center gap-2">
-                                            <Award className="h-5 w-5"/>
+                                            <Award className="h-5 w-5" />
                                             主要荣誉
                                         </CardTitle>
                                     </CardHeader>
@@ -415,7 +582,7 @@ export default function MemberPage({params}: MemberPageProps) {
                                         <div className="space-y-3">
                                             {member.teaching.map((course, index) => (
                                                 <div key={index}
-                                                     className="border-b border-slate-100 pb-3 last:border-b-0">
+                                                    className="border-b border-slate-100 pb-3 last:border-b-0">
                                                     <h4 className="font-medium text-slate-900">{course.course}</h4>
                                                     <div className="flex justify-between text-sm text-slate-600">
                                                         <span>{course.type}</span>
@@ -435,7 +602,7 @@ export default function MemberPage({params}: MemberPageProps) {
                                 <Card>
                                     <CardHeader>
                                         <CardTitle className="flex items-center gap-2">
-                                            <GraduationCap className="h-5 w-5"/>
+                                            <GraduationCap className="h-5 w-5" />
                                             教育背景
                                         </CardTitle>
                                     </CardHeader>
@@ -507,9 +674,9 @@ export default function MemberPage({params}: MemberPageProps) {
                                         <div className="space-y-4">
                                             {member.achievements.awards.map((award, index) => (
                                                 <div key={index}
-                                                     className="flex items-start gap-4 p-4 border rounded-lg">
+                                                    className="flex items-start gap-4 p-4 border rounded-lg">
                                                     <div className="flex-shrink-0 mt-1">
-                                                        <Award className="h-6 w-6 text-amber-500"/>
+                                                        <Award className="h-6 w-6 text-amber-500" />
                                                     </div>
                                                     <div className="flex-1">
                                                         <h4 className="font-medium text-slate-900">{award.name}</h4>
@@ -545,16 +712,16 @@ export default function MemberPage({params}: MemberPageProps) {
                                                 <p className="text-slate-600 mb-2">{paper.authors.join(", ")}</p>
                                                 <div
                                                     className="flex items-center justify-between text-sm text-slate-600">
-                          <span className="font-medium">
-                            {paper.journal}, {paper.year}
-                          </span>
+                                                    <span className="font-medium">
+                                                        {paper.journal}, {paper.year}
+                                                    </span>
                                                     <span>被引用 {paper.citations} 次</span>
                                                 </div>
                                                 <div className="flex gap-2 mt-3">
                                                     {paper.pdfUrl && (
                                                         <Button size="sm" variant="outline" asChild>
                                                             <a href={paper.pdfUrl} target="_blank" rel="noopener noreferrer">
-                                                                <Download className="h-3 w-3 mr-1"/>
+                                                                <Download className="h-3 w-3 mr-1" />
                                                                 PDF
                                                             </a>
                                                         </Button>
@@ -566,7 +733,7 @@ export default function MemberPage({params}: MemberPageProps) {
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
                                                             >
-                                                                <ExternalLink className="h-3 w-3 mr-1"/>
+                                                                <ExternalLink className="h-3 w-3 mr-1" />
                                                                 DOI
                                                             </a>
                                                         </Button>

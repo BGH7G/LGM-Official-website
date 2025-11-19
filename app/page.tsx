@@ -5,7 +5,7 @@ import { ArrowRight, Users, BookOpen, Calendar } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { headers } from "next/headers"
- 
+
 
 function formatDate(createdAt?: string, publishedAt?: string): string {
   try {
@@ -124,7 +124,7 @@ export default async function HomePage() {
               <Link href="#contact" className="text-slate-700 hover:text-slate-900 font-medium">
                 联系我们
               </Link>
-            
+
             </div>
           </div>
         </div>
@@ -236,11 +236,11 @@ export default async function HomePage() {
                   <div className="flex flex-col md:flex-row items-center gap-6">
                     <div className="w-48 h-64 bg-slate-200 rounded-lg overflow-hidden flex items-center justify-center flex-shrink-0">
                       <Image
-                          src="/avatar/liu.png"
-                          alt="刘军花教授"
-                          width={192}
-                          height={256}
-                          className="object-cover w-full h-full"
+                        src="/avatar/liu.png"
+                        alt="刘军花教授"
+                        width={192}
+                        height={256}
+                        className="object-cover w-full h-full"
                       />
                     </div>
                     <div className="text-center md:text-left flex-1">
@@ -258,6 +258,36 @@ export default async function HomePage() {
                 </CardContent>
               </Card>
             </Link>
+            <div className="mt-8">
+              <Link href="/members/Sun-professor">
+                <Card className="max-w-3xl mx-auto hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardContent className="p-8">
+                    <div className="flex flex-col md:flex-row items-center gap-6">
+                      <div className="w-48 h-64 bg-slate-200 rounded-lg overflow-hidden flex items-center justify-center flex-shrink-0">
+                        <Image
+                          src="/avatar/sun.png"
+                          alt="孙大明副教授"
+                          width={192}
+                          height={256}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                      <div className="text-center md:text-left flex-1">
+                        <h4 className="text-2xl font-bold text-slate-900 mb-2">孙大明副教授</h4>
+                        <p className="text-slate-600 mb-4">博士研究生毕业</p>
+                        <p className="text-slate-700 mb-4">
+                          南京农业大学动物科技学院高层次引进人才，主持国家自然科学基金青年项目和江苏省卓越博士后计划项目各一项。在Genome Biology、Pharmacological Research和Journal of Animal Science And Biotechnology等期刊发表论文10余篇，总被引500多次。
+                        </p>
+                        <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                          <Badge variant="secondary">反刍动物微生态</Badge>
+                          <Badge variant="secondary">反刍动物消化道营养</Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
           </div>
 
           {/* Students */}
@@ -267,7 +297,7 @@ export default async function HomePage() {
               {students.map((m: any) => (
                 <Card key={m.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-4 text-center">
-                    <div className="w-[140px] h-[140px] rounded-lg overflow-hidden flex items-center justify-center mx-auto mb-3 bg-slate-200">
+                    <div className="w-[120px] h-[140px] rounded-lg overflow-hidden flex items-center justify-center mx-auto mb-3 bg-slate-200">
                       {m?.avatarUrl ? (
                         <img
                           src={m.avatarUrl}
