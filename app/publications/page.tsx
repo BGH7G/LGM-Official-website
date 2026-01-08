@@ -1,12 +1,14 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { usePaginatedResource } from "@/hooks/usePaginatedResource"
+import { fetchPublicationsPage, type PublicationItem } from "@/lib/api"
 import { Search, Download, ExternalLink, Calendar, Users, BookOpen, Filter } from "lucide-react"
 import Link from "next/link"
 
@@ -22,86 +24,11 @@ export default function PublicationsPage() {
   const [selectedType, setSelectedType] = useState("全部")
   const [selectedYear, setSelectedYear] = useState("全部")
   const [sortBy, setSortBy] = useState("year")
-  // 远端数据与分页状态（通过 next.config.mjs 的 rewrites 使用 /api/publication）
-  type Pub = {
-    id: number
-    title: string
-    Authors?: { name?: string }[]
-    Venue?: { name?: string }
-    year?: number
-    PublicationType?: { name?: string }
-    ResearchCategory?: { name?: string }
-    citations?: number
-    doi?: string
-    abstract?: string
-    Keywords?: { name?: string }[]
-    pdfUrl?: string
-    codeUrl?: string
-  }
-
-  const [items, setItems] = useState<{
-    id: number
-    title: string
-    authors: string[]
-    journal: string
-    year: number
-    type: string
-    category: string
-    citations: number
-    doi: string
-    abstract: string
-    keywords: string[]
-    pdfUrl?: string
-    codeUrl?: string
-  }[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(12)
-  const [totalPages, setTotalPages] = useState(1)
-  const [totalItems, setTotalItems] = useState(0)
-
-  useEffect(() => {
-    let cancelled = false
-    async function run() {
-      try {
-        setLoading(true)
-        const res = await fetch(`/api/publication?page=${page}&pageSize=${pageSize}`, { cache: "no-store" })
-        if (!res.ok) throw new Error(`请求失败: ${res.status}`)
-        const data = await res.json()
-        const list: Pub[] = Array.isArray(data?.items) ? data.items : []
-        const mapped = list.map((it) => ({
-          id: it.id,
-          title: it.title || "",
-          authors: Array.isArray(it.Authors) ? it.Authors.map((a) => a?.name || "").filter(Boolean) : [],
-          journal: it.Venue?.name || "",
-          year: Number(it.year) || 0,
-          type: it.PublicationType?.name || "其他",
-          category: it.ResearchCategory?.name || "未分类",
-          citations: Number(it.citations) || 0,
-          doi: it.doi || "",
-          abstract: it.abstract || "",
-          keywords: Array.isArray(it.Keywords) ? it.Keywords.map((k) => k?.name || "").filter(Boolean) : [],
-          pdfUrl: it.pdfUrl || undefined,
-          codeUrl: it.codeUrl || undefined,
-        }))
-        if (!cancelled) {
-          setItems(mapped)
-          setTotalPages(Number(data?.totalPages) || 1)
-          setTotalItems(Number(data?.totalItems) || mapped.length)
-          setError(null)
-        }
-      } catch (e: any) {
-        if (!cancelled) setError(e?.message || "网络错误")
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
-    }
-    run()
-    return () => {
-      cancelled = true
-    }
-  }, [page, pageSize])
+  const { items, loading, error, page, setPage, pageSize, setPageSize, totalPages, totalItems } =
+    usePaginatedResource<PublicationItem>({
+      fetchPage: useCallback((p, size) => fetchPublicationsPage({ page: p, pageSize: size }), []),
+      initialPageSize: 12,
+    })
 
   // 本地过滤与排序（静态筛选）
   const filteredPublications = useMemo(() => {
@@ -143,39 +70,6 @@ export default function PublicationsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <div className="text-2xl font-bold text-slate-900">Liu Lab</div>
-              <Badge variant="secondary">Laboratory of Gastrointestinal Microbiology
-              </Badge>
-            </div>
-            <div className="hidden md:flex space-x-8">
-              <Link href="/" className="text-slate-700 hover:text-slate-900 font-medium">
-                首页
-              </Link>
-              <Link href="/#research" className="text-slate-700 hover:text-slate-900 font-medium">
-                研究方向
-              </Link>
-              <Link href="/#team" className="text-slate-700 hover:text-slate-900 font-medium">
-                团队成员
-              </Link>
-              <Link href="/publications" className="text-slate-900 font-medium border-b-2 border-slate-900">
-                研究成果
-              </Link>
-              <Link href="/news" className="text-slate-700 hover:text-slate-900 font-medium">
-                新闻动态
-              </Link>
-              <Link href="/#contact" className="text-slate-700 hover:text-slate-900 font-medium">
-                联系我们
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
       {/* Header */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
@@ -488,7 +382,7 @@ export default function PublicationsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="text-2xl font-bold mb-4">反刍动物消化道微生物实验室</div>
-            <p className="text-slate-300 mb-4">Laboratory of Gastrointestinal Microbiology</p>
+            <p className="text-slate-300 mb-4">Ruminant Metabolism and Physiology Laboratory</p>
             <p className="text-slate-400 text-sm"> 2024 反刍动物消化道微生物实验室. 保留所有权利.</p>
           </div>
         </div>

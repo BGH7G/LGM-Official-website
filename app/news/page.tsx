@@ -1,11 +1,13 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { usePaginatedResource } from "@/hooks/usePaginatedResource"
+import { fetchNewsPage, type NewsItem } from "@/lib/api"
 import { Calendar, User, Eye, Heart, Search, ArrowRight } from "lucide-react"
 import Link from "next/link"
  
@@ -14,73 +16,30 @@ import Link from "next/link"
 
 export default function NewsListPage() {
   // 动态数据与分页、本地搜索/筛选/排序
-  const [allNews, setAllNews] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(6)
-  const [totalPages, setTotalPages] = useState(1)
-  const [totalItems, setTotalItems] = useState(0)
+  const {
+    items: allNews,
+    loading,
+    error,
+    page,
+    setPage,
+    pageSize,
+    setPageSize,
+    totalPages,
+    totalItems,
+    reload,
+  } = usePaginatedResource<NewsItem>({
+    fetchPage: useCallback((p, size) => fetchNewsPage({ page: p, pageSize: size }), []),
+    initialPageSize: 6,
+  })
 
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("全部")
   const [selectedSort, setSelectedSort] = useState("最新")
-  const [reloadTick, setReloadTick] = useState(0)
-
-  useEffect(() => {
-    let cancelled = false
-    async function run() {
-      try {
-        setLoading(true)
-        setError(null)
-        const res = await fetch(`/api/news?page=${page}&pageSize=${pageSize}`, { cache: "no-store" })
-        const data = await res.json().catch(() => ({}))
-        if (!res.ok || data?.success === false) {
-          throw new Error(data?.message || `请求失败: ${res.status}`)
-        }
-        const list: any[] = Array.isArray(data?.items) ? data.items : []
-        const mapped = list.map((it: any) => {
-          const publishedAt = it?.publishedAt ?? null
-          const createdAt = it?.createdAt ?? null
-          const publishedMs = publishedAt ? new Date(publishedAt).getTime() : -Infinity
-          return {
-            id: it?.id,
-            title: it?.title || "",
-            summary: it?.summary || "",
-            author: "管理员",
-            category: it?.newsCategory?.name || "未分类",
-            views: Number(it?.views) || 0,
-            likes: Number(it?.likes) || 0,
-            tags: Array.isArray(it?.TagOfNews) ? it.TagOfNews.map((t: any) => t?.name || "").filter(Boolean) : [],
-            coverImage: it?.coverImage ?? null,
-            status: (it?.status || "").toLowerCase(),
-            publishedAt,
-            createdAt,
-            publishedMs,
-            date: createdAt ? new Date(createdAt).toLocaleDateString() : "—",
-          }
-        })
-        if (!cancelled) {
-          setAllNews(mapped)
-          setTotalPages(Number(data?.totalPages) || 1)
-          setTotalItems(Number(data?.totalItems) || mapped.length)
-        }
-      } catch (e: any) {
-        if (!cancelled) setError(e?.message || "网络错误")
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
-    }
-    run()
-    return () => {
-      cancelled = true
-    }
-  }, [page, pageSize, reloadTick])
 
   // 动态分类选项（基于当前页数据）
   const categories = useMemo(() => {
     const s = new Set<string>()
-    allNews.forEach((n: any) => s.add(n.category))
+    allNews.forEach((n) => s.add(n.category))
     return ["全部", ...Array.from(s)]
   }, [allNews])
 
@@ -88,10 +47,10 @@ export default function NewsListPage() {
   const filteredNews = useMemo(() => {
     const lower = searchTerm.trim().toLowerCase()
     return allNews
-      .filter((n: any) => n.status === "published")
-      .filter((n: any) => (!lower ? true : n.title.toLowerCase().includes(lower)))
-      .filter((n: any) => (selectedCategory === "全部" ? true : n.category === selectedCategory))
-      .sort((a: any, b: any) => {
+      .filter((n) => n.status === "published")
+      .filter((n) => (!lower ? true : n.title.toLowerCase().includes(lower)))
+      .filter((n) => (selectedCategory === "全部" ? true : n.category === selectedCategory))
+      .sort((a, b) => {
         if (selectedSort === "最新") return (b.publishedMs ?? 0) - (a.publishedMs ?? 0)
         if (selectedSort === "最热") return (b.views ?? 0) - (a.views ?? 0)
         if (selectedSort === "最赞") return (b.likes ?? 0) - (a.likes ?? 0)
@@ -101,38 +60,6 @@ export default function NewsListPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <div className="text-2xl font-bold text-slate-900">Liu Lab</div>
-              <Badge variant="secondary">Laboratory of Gastrointestinal Microbiology</Badge>
-            </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-slate-700 hover:text-slate-900 font-medium">
-                首页
-              </Link>
-              <Link href="/#research" className="text-slate-700 hover:text-slate-900 font-medium">
-                研究方向
-              </Link>
-              <Link href="/#team" className="text-slate-700 hover:text-slate-900 font-medium">
-                团队成员
-              </Link>
-              <Link href="/publications" className="text-slate-700 hover:text-slate-900 font-medium">
-                研究成果
-              </Link>
-              <Link href="/news" className="text-slate-900 font-medium border-b-2 border-slate-900">
-                新闻动态
-              </Link>
-              <Link href="/#contact" className="text-slate-700 hover:text-slate-900 font-medium">
-                联系我们
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
       {/* Header */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
@@ -182,7 +109,7 @@ export default function NewsListPage() {
           {error && (
             <div className="mt-2 text-sm text-red-600">
               加载失败：{error}
-              <Button variant="link" className="ml-2 p-0" onClick={() => setReloadTick((t) => t + 1)}>
+              <Button variant="link" className="ml-2 p-0" onClick={reload}>
                 重试
               </Button>
             </div>
@@ -292,7 +219,7 @@ export default function NewsListPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="text-2xl font-bold mb-4">反刍动物消化道微生物实验室</div>
-            <p className="text-slate-300 mb-4">Laboratory of Gastrointestinal Microbiology</p>
+            <p className="text-slate-300 mb-4">Ruminant Metabolism and Physiology Laboratory</p>
             <p className="text-slate-400 text-sm"> 2024 反刍动物消化道微生物实验室. 保留所有权利.</p>
           </div>
         </div>

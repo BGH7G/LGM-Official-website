@@ -216,7 +216,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="text-2xl font-bold text-slate-900">Liu Lab</div>
-              <Badge variant="secondary">Laboratory of Gastrointestinal Microbiology
+              <Badge variant="secondary">Ruminant Metabolism and Physiology Laboratory
               </Badge>
             </div>
             <div className="hidden md:flex space-x-8">
@@ -350,7 +350,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="text-2xl font-bold mb-4">反刍动物消化道微生物实验室</div>
-            <p className="text-slate-300 mb-4">Laboratory of Gastrointestinal Microbiology</p>
+            <p className="text-slate-300 mb-4">Ruminant Metabolism and Physiology Laboratory</p>
             <p className="text-slate-400 text-sm"> 2024 反刍动物消化道微生物实验室. 保留所有权利.</p>
           </div>
         </div>

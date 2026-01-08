@@ -424,40 +424,7 @@ export default function MemberPage({ params }: MemberPageProps) {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-            {/* Navigation */}
-            <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        <div className="flex items-center space-x-4">
-                            <Link href="/" className="text-2xl font-bold text-slate-900">
-                                Liu Lab
-                            </Link>
-                            <Badge variant="secondary">Laboratory of Gastrointestinal Microbiology</Badge>
-                        </div>
-                        <div className="hidden md:flex space-x-8">
-                            <Link href="/" className="text-slate-700 hover:text-slate-900 font-medium">
-                                首页
-                            </Link>
-                            <Link href="/#research" className="text-slate-700 hover:text-slate-900 font-medium">
-                                研究方向
-                            </Link>
-                            <Link href="/#team" className="text-slate-700 hover:text-slate-900 font-medium">
-                                团队成员
-                            </Link>
-                            <Link href="/#publications" className="text-slate-700 hover:text-slate-900 font-medium">
-                                研究成果
-                            </Link>
-                            <Link href="/#news" className="text-slate-700 hover:text-slate-900 font-medium">
-                                新闻动态
-                            </Link>
-                            <Link href="/#contact" className="text-slate-700 hover:text-slate-900 font-medium">
-                                联系我们
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-4">
 
             {/* Back Button */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
@@ -830,7 +797,7 @@ export default function MemberPage({ params }: MemberPageProps) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <div className="text-2xl font-bold mb-4">反刍动物消化道微生物实验室</div>
-                        <p className="text-slate-300 mb-4">Laboratory of Gastrointestinal Microbiology</p>
+                        <p className="text-slate-300 mb-4">Ruminant Metabolism and Physiology Laboratory</p>
                         <p className="text-slate-400 text-sm">&copy; 2024 反刍动物消化道微生物实验室. 保留所有权利.</p>
                     </div>
                 </div>

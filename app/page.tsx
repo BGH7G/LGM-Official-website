@@ -1,135 +1,24 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { fetchMembers, fetchNewsPage, fetchPublicationsPage, resolveBaseUrl } from "@/lib/api"
 import { ArrowRight, Users, BookOpen, Calendar } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { headers } from "next/headers"
 
-
-function formatDate(createdAt?: string, publishedAt?: string): string {
-  try {
-    const ds = createdAt || publishedAt
-    if (!ds) return ""
-    const d = new Date(ds)
-    if (isNaN(d.getTime())) return ""
-    const pad = (n: number) => `${n}`.padStart(2, "0")
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
-  } catch {
-    return ""
-  }
-}
-
 export default async function HomePage() {
-  // Fetch members and build full list (no role filtering)
-  let students: any[] = []
-  let latestNews: { id: number; title: string; summary: string; date: string }[] = []
-  let latestPubs: { id: number; title: string; authors: string; journal: string; year: number; type: string }[] = []
-  try {
-    const h = await headers()
-    const base = process.env.NEXT_PUBLIC_APP_URL ?? `http://${h.get("host")}`
-    const res = await fetch(`${base}/api/member`, { cache: "no-store" })
-    if (res.ok) {
-      const payload = await res.json()
-      const items = Array.isArray(payload?.items) ? payload.items : []
-      // 不过滤 Role，展示全部成员
-      students = items
-    }
-  } catch (_) {
-    // 忽略错误，渲染空状态
-  }
+  const headerList = await headers()
+  const baseUrl = resolveBaseUrl(headerList)
 
-  // Fetch latest news for homepage
-  try {
-    const h = await headers()
-    const base = process.env.NEXT_PUBLIC_APP_URL ?? `http://${h.get("host")}`
-    const res = await fetch(`${base}/api/news`, { cache: "no-store" })
-    if (res.ok) {
-      const payload = await res.json().catch(() => ({} as any))
-      const items: any[] = Array.isArray(payload?.items) ? payload.items : []
-      const published = items.filter((it: any) => (it?.status || "").toLowerCase() === "published")
-      const sorted = published.sort((a: any, b: any) => {
-        const at = new Date(a?.createdAt || a?.publishedAt || 0).getTime()
-        const bt = new Date(b?.createdAt || b?.publishedAt || 0).getTime()
-        return bt - at
-      })
-      latestNews = sorted.slice(0, 3).map((it: any) => ({
-        id: Number(it?.id),
-        title: it?.title || "",
-        summary: it?.summary || "",
-        date: formatDate(it?.createdAt, it?.publishedAt),
-      }))
-    }
-  } catch (_) {
-    // 忽略错误
-  }
+  const [students, latestNews, latestPubs] = await Promise.all([
+    fetchMembers(baseUrl).catch(() => []),
+    getLatestNews(baseUrl),
+    getLatestPublications(baseUrl),
+  ])
 
-  // Fetch latest publications for homepage
-  try {
-    const h = await headers()
-    const base = process.env.NEXT_PUBLIC_APP_URL ?? `http://${h.get("host")}`
-    const res = await fetch(`${base}/api/publication?page=1&pageSize=3`, { cache: "no-store" })
-    if (res.ok) {
-      const payload = await res.json().catch(() => ({} as any))
-      const items: any[] = Array.isArray(payload?.items) ? payload.items : []
-      const sorted = items.sort((a: any, b: any) => {
-        const ay = Number(a?.year) || new Date(a?.createdAt || 0).getFullYear() || 0
-        const by = Number(b?.year) || new Date(b?.createdAt || 0).getFullYear() || 0
-        if (by !== ay) return by - ay
-        const at = new Date(a?.createdAt || 0).getTime()
-        const bt = new Date(b?.createdAt || 0).getTime()
-        return bt - at
-      })
-      latestPubs = sorted.slice(0, 3).map((it: any) => ({
-        id: Number(it?.id),
-        title: it?.title || "",
-        authors: Array.isArray(it?.Authors)
-          ? it.Authors.map((a: any) => a?.name || "").filter(Boolean).join(", ")
-          : "",
-        journal: it?.Venue?.name || "",
-        year: Number(it?.year) || new Date(it?.createdAt || Date.now()).getFullYear(),
-        type: it?.PublicationType?.name || "其他",
-      }))
-    }
-  } catch (_) {
-    // 忽略错误
-  }
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <div className="text-2xl font-bold text-slate-900">Liu Lab</div>
-              <Badge variant="secondary">Laboratory of Gastrointestinal Microbiology
-              </Badge>
-            </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="#" className="text-slate-700 hover:text-slate-900 font-medium">
-                首页
-              </Link>
-              <Link href="#research" className="text-slate-700 hover:text-slate-900 font-medium">
-                研究方向
-              </Link>
-              <Link href="#team" className="text-slate-700 hover:text-slate-900 font-medium">
-                团队成员
-              </Link>
-              <Link href="#publications" className="text-slate-700 hover:text-slate-900 font-medium">
-                研究成果
-              </Link>
-              <Link href="#news" className="text-slate-700 hover:text-slate-900 font-medium">
-                新闻动态
-              </Link>
-              <Link href="#contact" className="text-slate-700 hover:text-slate-900 font-medium">
-                联系我们
-              </Link>
-
-            </div>
-          </div>
-        </div>
-      </nav>
-
       {/* Hero Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
@@ -440,11 +329,53 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="text-2xl font-bold mb-4">反刍动物消化道微生物实验室</div>
-            <p className="text-slate-300 mb-4">Laboratory of Gastrointestinal Microbiology</p>
+            <p className="text-slate-300 mb-4">Ruminant Metabolism and Physiology Laboratory</p>
             <p className="text-slate-400 text-sm"> 2024 反刍动物消化道微生物实验室. 保留所有权利.</p>
           </div>
         </div>
       </footer>
     </div>
   )
+}
+
+async function getLatestNews(baseUrl: string) {
+  try {
+    const { items } = await fetchNewsPage({ baseUrl, page: 1, pageSize: 20 })
+    return items
+      .filter((it) => it.status === "published")
+      .sort((a, b) => (b.publishedMs || 0) - (a.publishedMs || 0))
+      .slice(0, 3)
+      .map((it) => ({
+        id: it.id,
+        title: it.title,
+        summary: it.summary,
+        date: it.date,
+      }))
+  } catch {
+    return []
+  }
+}
+
+async function getLatestPublications(baseUrl: string) {
+  try {
+    const { items } = await fetchPublicationsPage({ baseUrl, page: 1, pageSize: 12 })
+    const sorted = items
+      .slice()
+      .sort((a, b) => {
+        if (b.year !== a.year) return b.year - a.year
+        const at = a.createdAt ? new Date(a.createdAt).getTime() : 0
+        const bt = b.createdAt ? new Date(b.createdAt).getTime() : 0
+        return bt - at
+      })
+    return sorted.slice(0, 3).map((it) => ({
+      id: it.id,
+      title: it.title,
+      authors: it.authors.join(", "),
+      journal: it.journal,
+      year: it.year || new Date().getFullYear(),
+      type: it.type,
+    }))
+  } catch {
+    return []
+  }
 }
